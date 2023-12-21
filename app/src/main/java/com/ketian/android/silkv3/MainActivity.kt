@@ -10,20 +10,25 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import com.ketian.android.silkv3.databinding.ActivityMainBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var mPagerAdapter: PagerAdapter? = null
-    private var mFragments: MutableList<Fragment>? = null
+    private lateinit var mFragments: MutableList<Fragment>
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        hint.text=""
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.hint.text=""
         if (getPermission()) {
             initFragments()
             mPagerAdapter = PagerAdapter(supportFragmentManager)
-            pager.adapter = mPagerAdapter
+            binding.pager.adapter = mPagerAdapter
         }
     }
 
@@ -45,25 +50,25 @@ class MainActivity : AppCompatActivity() {
             if ((grantResults.isNotEmpty()) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 initFragments()
                 mPagerAdapter = PagerAdapter(supportFragmentManager)
-                pager.adapter = mPagerAdapter
+                binding.pager.adapter = mPagerAdapter
             }
         }
     }
 
     private fun initFragments() {
         mFragments = ArrayList(2)
-        mFragments?.add(VoiceFragment())
-        mFragments?.add(ExportFragment())
+        mFragments.add(VoiceFragment())
+        mFragments.add(ExportFragment())
     }
 
     fun wechatVoiceDecodeResult(rlt: Int, dest: String) {
         when(rlt){
             0->{
-                hint.text="参数有误"
+                binding.hint.text="参数有误"
                 Toast.makeText(this, "参数有误", Toast.LENGTH_SHORT).show()
             }
             1->{
-                hint.text="转换成功,恭喜你成功扒了微信的底裤"
+                binding.hint.text="转换成功,恭喜你成功扒了微信的底裤"
                 Toast.makeText(this, "Convert to $dest OK", Toast.LENGTH_SHORT).show()
             }
             else->{}
@@ -72,12 +77,12 @@ class MainActivity : AppCompatActivity() {
 
     private inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment? {
-            return mFragments?.get(position)
+        override fun getItem(position: Int): Fragment {
+            return mFragments.get(position)
         }
 
         override fun getCount(): Int {
-            return mFragments?.size ?: 0
+            return mFragments.size
         }
     }
 

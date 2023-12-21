@@ -91,8 +91,8 @@ int convertSilk2PCM(const char* src, const FILE* destFile) {
     SKP_int32 packetSize_ms=0, API_Fs_Hz = 0;
     SKP_int32 decSizeBytes;
     void      *psDec;
-    SKP_float loss_prob;
-    SKP_int32 frames, lost, quiet;
+    SKP_float loss_prob = 0;
+    SKP_int32 frames, lost, quiet = 0;
     SKP_SILK_SDK_DecControlStruct DecControl;
 
     strcpy( bitInFileName, src );

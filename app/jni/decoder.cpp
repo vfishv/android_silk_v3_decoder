@@ -16,13 +16,13 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_ketian_android_silkv3_jni_JNI_convert(JNIEnv *env, jobject thiz, jstring src, jstring dest, jstring tmpfile) {
     if (src == nullptr){
-        return NULL;
+        return 0;
     }
     if (dest == nullptr){
-        return NULL;
+        return 0;
     }
     if (tmpfile == nullptr){
-        return NULL;
+        return 0;
     }
     const char *str_c = env->GetStringUTFChars(src, nullptr);
     const char *dest_c = env->GetStringUTFChars(dest, nullptr);

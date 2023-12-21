@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ketian.android.silkv3.databinding.FragmentVoiceBinding
 import com.ketian.android.silkv3.jni.JNI
-import kotlinx.android.synthetic.main.fragment_voice.*
 import java.io.File
 import java.util.*
 
@@ -25,13 +25,16 @@ class VoiceFragment : Fragment() {
     private var mTask: LoadTask? = null
     private var mAdapter: ItemAdapter? = null
     private val mItems = ArrayList<String>()
+    private lateinit var binding: FragmentVoiceBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_voice, container, false)
+        binding = FragmentVoiceBinding.inflate(inflater)
+        return binding.recyclerView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recycler_view.apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = ItemAdapter(requireContext(), mItems).apply {
                 mAdapter = this
